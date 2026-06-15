@@ -21,6 +21,7 @@
   let inputTimer = null;
 
   const $ = (id) => document.getElementById(id);
+  const codeDisplay = $('code-display');
   const codeValue = $('code-value');
   const codeLabel = $('code-label');
   const ringFg = $('ring-fg');
@@ -221,8 +222,8 @@
           text: uri,
           width: 200,
           height: 200,
-          colorDark: '#1a1a2e',
-          colorLight: '#ffffff',
+          colorDark: '#c000ff',
+          colorLight: '#0a0015',
           correctLevel: QRCode.CorrectLevel.M
         });
       }
@@ -231,6 +232,7 @@
 
   async function updateCode() {
     if (!state.secret) {
+      codeDisplay.setAttribute('data-status', 'STANDBY');
       codeValue.textContent = '———';
       codeValue.classList.remove('error-state');
       ringFg.setAttribute('stroke-dashoffset', CIRCUMFERENCE);
@@ -288,12 +290,14 @@
       state.type = parsed.type;
       inputHint.textContent = 'Secret loaded — code refreshes every ' + state.period + 's';
       inputHint.style.color = '';
+      codeDisplay.setAttribute('data-status', 'ACTIVE');
       updateDetails(parsed);
       generateQR(value.trim().startsWith('otpauth://') ? value.trim() : constructURI(parsed));
       startCountdown();
     } else if (value.trim() === '') {
       state.secret = null;
       codeValue.textContent = '———';
+      codeDisplay.setAttribute('data-status', 'READY');
       codeValue.classList.remove('error-state');
       inputHint.textContent = 'Paste a Base32 secret or an otpauth:// URI';
       inputHint.style.color = '';
@@ -302,6 +306,7 @@
       stopCountdown();
       updateRing(0, 30);
     } else {
+      codeDisplay.setAttribute('data-status', 'ERROR');
       state.secret = null;
       codeValue.textContent = 'ERR';
       codeValue.classList.add('error-state');
@@ -390,7 +395,7 @@
     const current = html.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', next === 'dark' ? '#0d0d1a' : '#f0f2f5');
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', next === 'dark' ? '#0a0015' : '#1a0a2e');
     localStorage.setItem('ezotp-theme', next);
 
     if (qrCodeInstance && state.secret) {
@@ -399,8 +404,8 @@
         text: constructURI(state),
         width: 200,
         height: 200,
-        colorDark: next === 'dark' ? '#ffffff' : '#1a1a2e',
-        colorLight: next === 'dark' ? '#1a1a2e' : '#ffffff',
+        colorDark: '#c000ff',
+        colorLight: next === 'dark' ? '#0a0015' : '#1a0a2e',
         correctLevel: QRCode.CorrectLevel.M
       });
     }
@@ -420,7 +425,7 @@
     const savedTheme = localStorage.getItem('ezotp-theme');
     if (savedTheme) {
       document.documentElement.setAttribute('data-theme', savedTheme);
-      document.querySelector('meta[name="theme-color"]').setAttribute('content', savedTheme === 'dark' ? '#0d0d1a' : '#f0f2f5');
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', savedTheme === 'dark' ? '#0a0015' : '#1a0a2e');
     }
 
     codeValue.addEventListener('click', copyCode);

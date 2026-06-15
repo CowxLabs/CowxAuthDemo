@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0d0d1a">
+  <meta name="theme-color" content="#0a0015">
   <title>EzOTP</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -31,7 +31,7 @@
     </header>
 
     <main>
-      <div class="code-display" id="code-display">
+      <div class="code-display" id="code-display" data-status="READY">
         <div class="code-container">
           <div class="code-label" id="code-label">Paste your secret to get started</div>
           <div class="code-value" id="code-value">———</div>
@@ -47,7 +47,7 @@
 
       <div class="input-section">
         <div class="input-wrapper">
-          <input type="password" id="secret-input" class="secret-input" placeholder="Paste secret or otpauth:// URI" autocomplete="off" spellcheck="false" autofocus>
+          <input type="password" id="secret-input" class="secret-input" placeholder="$ paste secret or otpauth:// URI" autocomplete="off" spellcheck="false" autofocus>
           <button class="input-toggle" id="input-toggle" aria-label="Toggle secret visibility">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
