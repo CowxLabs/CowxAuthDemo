@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d0d1a">
+  <title>EzOTP</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="10" width="24" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+          <circle cx="14" cy="18" r="2" fill="currentColor"/>
+          <path d="M9 10V7a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">EzOTP</span>
+      </div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <main>
+      <div class="code-display" id="code-display">
+        <div class="code-container">
+          <div class="code-label" id="code-label">Paste your secret to get started</div>
+          <div class="code-value" id="code-value">———</div>
+        </div>
+        <div class="timer-ring" id="timer-ring-container">
+          <svg viewBox="0 0 36 36" class="ring-svg">
+            <circle class="ring-bg" cx="18" cy="18" r="16"/>
+            <circle class="ring-fg" id="ring-fg" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"/>
+          </svg>
+          <span class="ring-label" id="ring-label">--</span>
+        </div>
+      </div>
+
+      <div class="input-section">
+        <div class="input-wrapper">
+          <input type="password" id="secret-input" class="secret-input" placeholder="Paste secret or otpauth:// URI" autocomplete="off" spellcheck="false" autofocus>
+          <button class="input-toggle" id="input-toggle" aria-label="Toggle secret visibility">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-hint" id="input-hint">Paste a Base32 secret or an <code>otpauth://</code> URI</div>
+      </div>
+
+      <div class="details-section" id="details-section" style="display:none">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Algorithm</span>
+            <span class="detail-value" id="detail-algorithm">SHA1</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Digits</span>
+            <span class="detail-value" id="detail-digits">6</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Period</span>
+            <span class="detail-value" id="detail-period">30s</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Issuer</span>
+            <span class="detail-value" id="detail-issuer">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-section" id="qr-section" style="display:none">
+        <div class="qr-toggle" id="qr-toggle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <path d="M3 17h4v4"/>
+            <path d="M17 17v4"/>
+            <path d="M3 21h4"/>
+          </svg>
+          <span>Show QR Code</span>
+        </div>
+        <div class="qr-container" id="qr-container">
+          <div id="qr-code"></div>
+          <div class="qr-label">Scan to add</div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <button class="copy-btn" id="copy-btn" aria-label="Copy code">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span>Copy Code</span>
+      </button>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
